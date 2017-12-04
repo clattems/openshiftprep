@@ -1,0 +1,90 @@
+---
+- hosts: openshiftaws
+  vars:
+    package: vim, telnet, tree, nmap, git, net-tools, ntp, bind-utils, bind, bridge-utils, bash-completion, docker, openvswitch, atomic, openshift-ansible, atomic-openshift-utils, ntp, kexec-tools, sos, psacct
+    repos:
+    #ansible_ssh_private_key_file: /Users/steveclatterbuck/Downloads/steveaws.pem
+  tasks:
+
+    - name: Same as above but subscribe to a specific pool by ID.
+      redhat_subscription:
+        state: present
+        username: sclatterbuck-crossvale
+        password: 6969Boner
+        pool_ids: 8a85f9815b165d1a015b1689f75f6beb
+      register: subscribed
+
+    - name: subscribe to repos
+      shell: subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-ose-3.7-rpms --enable=rhel-7-fast-datapath-rpms
+      when: subscribed.changed
+    # - name: create docker volume
+    #   lvol:
+    #     vg: docker_vg
+    #     lv: docker-pool
+    #     size: 30g
+    #     pvs: /dev/xvdb
+
+    - name: Install "{{ package }}"
+      yum:
+        name: '{{ package }}'
+        state: latest
+
+    # - name: install custom fact
+    #   template:
+    #     src: resolv.conf.j2
+    #     dest: /etc/resolv.conf
+    #     mode: 0755
+
+    # - name: create ansible user
+    #   user:
+    #     name: ansible
+    #     generate_ssh_key: yes
+    #     ssh_key_bits: 2048
+    #     ssh_key_file: .ssh/id_rsa
+    #     password: $6$qd1z9WJJ$WpPseBJsuhJGBe3LCbxmfjTeIYYebZzLIeL7t1L73oiKVigcy0GPCdupwNn6dJlFOszmDdQKAZrU7q4zi995d1
+    #
+    #
+    # - name: ansible authorized keys
+    #   template:
+    #     src: authorized_keys.j2
+    #     dest: /home/ansible/.ssh/authorized_keys
+    #     mode: 0600
+
+
+
+
+    - name: set sshd
+      template:
+        src: sshd_config.j2
+        dest: /etc/ssh/sshd_config
+        mode: 0600
+      register: sshd
+
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
+      when: sshd.changed
+
+    - name: start ntp
+      service:
+        name: ntpd
+        state: started
+
+
+    - name: manage docker config
+      template:
+        src: docker.j2
+        dest: /etc/sysconfig/docker
+        mode: 0644
+
+    - name: manage docker storage
+      template:
+        src: docker-storage-setup.j2
+        dest: /etc/sysconfig/docker-storage-setup
+        mode: 0644
+
+    - name: start docker
+      service:
+        name: docker
+        state: started

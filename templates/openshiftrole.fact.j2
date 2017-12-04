@@ -1,0 +1,20 @@
+#!/bin/bash
+appcode=$(hostname |cut -c7-9)
+case $appcode in
+  osm )
+  application="OpenShiftMaster"
+    ;;
+
+  osn )
+  application="OpenShiftNode"
+    ;;
+
+  *)
+  application="$appcode"
+    ;;
+esac
+cat <<EOF
+{
+        "appcode" : "$application"
+}
+EOF
