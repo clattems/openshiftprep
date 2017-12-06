@@ -1,0 +1,82 @@
+
+[openshift]
+xvdrhlosm02.xvinternal.com
+xvdrhlosm03.xvinternal.com
+xvdrhlnfs01.xvinternal.com
+xvdrhlosm04.xvinternal.com
+xvdrhlnde01.xvinternal.com
+xvdrhlnde02.xvinternal.com
+xvdrhlinf01.xvinternal.com
+xvdrhlolb01.xvinternal.com
+
+[openshift:children]
+masters
+nodes
+nfs
+etcd
+lb
+
+[openshift:vars]
+ansible_ssh_user=root
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+#ansible_ssh_private_key_file=/Users/steveclatterbuck/Downloads/steveaws.pem
+osm_default_node_selector='region=primary'
+os_firewall_use_firewalld=True
+openshift_disable_check=memory_availability,disk_availability,openshift_logging_elasticsearch,openshift_sanitize_inventory
+openshift_hosted_router_selector='region=infra'
+openshift_hosted_router_replicas=1
+openshift_hosted_registry_selector='region=infra'
+openshift_hosted_registry_replicas=1
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=192.168.1.168.xip.io
+openshift_master_cluster_public_hostname=192.168.1.168.xip.io
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+openshift_deployment_type=openshift-enterprise
+openshift_clock_enabled=true
+openshift_master_default_subdomain=cloudapps.192.168.1.168.xip.io
+openshift_hosted_registry_storage_kind=nfs
+openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
+openshift_hosted_registry_storage_host=xvdrhlnfs01.xvinternal.com
+openshift_hosted_registry_storage_nfs_directory=/nfsshare/openshift
+openshift_hosted_registry_storage_volume_name=registry
+openshift_hosted_registry_storage_volume_size=10Gi
+openshift_metrics_install_metrics=true
+openshift_metrics_storage_kind=nfs
+openshift_metrics_storage_access_modes=['ReadWriteOnce']
+openshift_metrics_storage_host=xvdrhlnfs01.xvinternal.com
+openshift_metrics_storage_nfs_directory=/nfsshare/openshift
+openshift_metrics_storage_volume_name=metrics
+openshift_metrics_storage_volume_size=10Gi
+openshift_logging_install_logging=true
+openshift_logging_storage_kind=nfs
+openshift_logging_storage_access_modes=['ReadWriteOnce']
+openshift_logging_storage_host=xvdrhlnfs01.xvinternal.com
+openshift_logging_storage_nfs_directory=/nfsshare/openshift
+openshift_logging_storage_volume_name=logging
+openshift_logging_storage_volume_size=10Gi
+openshift_master_identity_providers=[{'name': 'htpasswd_auth',
+'login': 'true', 'challenge': 'true',
+'kind': 'HTPasswdPasswordIdentityProvider',
+'filename': '/etc/origin/master/htpasswd'}]
+
+[masters]
+xvdrhlosm02.xvinternal.com
+xvdrhlosm03.xvinternal.com
+
+[lb]
+xvdrhlolb01.xvinternal.com
+
+[nfs]
+xvdrhlnfs01.xvinternal.com
+
+[etcd]
+xvdrhlosm02.xvinternal.com
+xvdrhlosm03.xvinternal.com
+
+[nodes]
+xvdrhlosm02.xvinternal.com
+xvdrhlosm02.xvinternal.com
+xvdrhlinf01.xvinternal.com openshift_hostname=xvdrhlinf01.xvinternal.com openshift_schedulable=True  openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+xvdrhlosm04.xvinternal.com openshift_hostname=xvdrhlosm04.xvinternal.com openshift_schedulable=True openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+xvdrhlnde01.xvinternal.com openshift_hostname=xvdrhlnde01.xvinternal.com openshift_public_hostname=xvdrhlnde01.xvinternal.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+xvdrhlnde02.xvinternal.com openshift_hostname=xvdrhlnde02.xvinternal.com openshift_public_hostname=xvdrhlnde02.xvinternal.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
