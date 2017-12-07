@@ -1,13 +1,12 @@
-
 [openshift]
-xvdrhlosm02.xvinternal.com
-xvdrhlosm03.xvinternal.com
-xvdrhlnfs01.xvinternal.com
-xvdrhlosm04.xvinternal.com
-xvdrhlnde01.xvinternal.com
-xvdrhlnde02.xvinternal.com
-xvdrhlinf01.xvinternal.com
-xvdrhlolb01.xvinternal.com
+xvdrhlosm02.cloudapps.xvinternal.com
+xvdrhlosm03.cloudapps.xvinternal.com
+xvdrhlnfs01.cloudapps.xvinternal.com
+xvdrhlosm04.csloudapps.xvinternal.com
+xvdrhlnde01.cloudapps.xvinternal.com
+xvdrhlnde02.cloudapps.xvinternal.com
+xvdrhlinf01.cloudapps.xvinternal.com
+xvdrhlolb01.cloudapps.xvinternal.com
 
 [openshift:children]
 masters
@@ -28,52 +27,57 @@ openshift_hosted_router_replicas=1
 openshift_hosted_registry_selector='region=infra'
 openshift_hosted_registry_replicas=1
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname=xvdrhlolb01.xvinternal.com
-openshift_master_cluster_public_hostname=xvdrhlolb01.xvinternal.com
-os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+openshift_master_cluster_hostname=xvdrhlolb01.cloudapps.xvinternal.com
+#openshift_master_cluster_public_hostname=192.168.1.168.xip.io
+#os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 openshift_deployment_type=openshift-enterprise
 openshift_clock_enabled=true
-openshift_master_default_subdomain=cloudapps.xvdrhlolb01.xvinternal.com
+openshift_master_default_subdomain=apps.cloudapps.xvinternal.com
 openshift_hosted_registry_storage_kind=nfs
 openshift_hosted_registry_storage_access_modes=['ReadWriteMany']
-openshift_hosted_registry_storage_host=xvdrhlnfs01.xvinternal.com
+openshift_hosted_registry_storage_host=xvdrhlnfs01.cloudapps.xvinternal.com
 openshift_hosted_registry_storage_nfs_directory=/nfsshare/openshift
 openshift_hosted_registry_storage_volume_name=registry
 openshift_hosted_registry_storage_volume_size=10Gi
 openshift_metrics_install_metrics=true
 openshift_metrics_storage_kind=nfs
 openshift_metrics_storage_access_modes=['ReadWriteOnce']
-openshift_metrics_storage_host=xvdrhlnfs01.xvinternal.com
+openshift_metrics_storage_host=xvdrhlnfs01.cloudapps.xvinternal.com
 openshift_metrics_storage_nfs_directory=/nfsshare/openshift
 openshift_metrics_storage_volume_name=metrics
 openshift_metrics_storage_volume_size=10Gi
+openshift_hosted_metrics_public_url=https://hawkular-metrics.apps.cloudapps.xvinternal.com/hawkular/metrics
+openshift_hosted_metrics_selector={"region":"infra"}
 openshift_logging_install_logging=true
 openshift_logging_storage_kind=nfs
 openshift_logging_storage_access_modes=['ReadWriteOnce']
-openshift_logging_storage_host=xvdrhlnfs01.xvinternal.com
+openshift_logging_storage_host=xvdrhlnfs01.cloudapps.xvinternal.com
 openshift_logging_storage_nfs_directory=/nfsshare/openshift
 openshift_logging_storage_volume_name=logging
 openshift_logging_storage_volume_size=10Gi
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth',
+'login': 'true', 'challenge': 'true',
+'kind': 'HTPasswdPasswordIdentityProvider',
+'filename': '/etc/origin/master/htpasswd'}]
 
 [masters]
-xvdrhlosm02.xvinternal.com
-xvdrhlosm03.xvinternal.com
+xvdrhlosm02.cloudapps.xvinternal.com
+xvdrhlosm03.cloudapps.xvinternal.com
 
 [lb]
-xvdrhlolb01.xvinternal.com
+xvdrhlolb01.cloudapps.xvinternal.com
 
 [nfs]
-xvdrhlnfs01.xvinternal.com
+xvdrhlnfs01.cloudapps.xvinternal.com
 
 [etcd]
-xvdrhlosm02.xvinternal.com
-xvdrhlosm03.xvinternal.com
+xvdrhlosm02.cloudapps.xvinternal.com
+xvdrhlosm03.cloudapps.xvinternal.com
 
 [nodes]
-xvdrhlosm02.xvinternal.com
-xvdrhlosm02.xvinternal.com
-xvdrhlinf01.xvinternal.com openshift_hostname=xvdrhlinf01.xvinternal.com openshift_schedulable=True  openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-xvdrhlosm04.xvinternal.com openshift_hostname=xvdrhlosm04.xvinternal.com openshift_schedulable=True openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-xvdrhlnde01.xvinternal.com openshift_hostname=xvdrhlnde01.xvinternal.com openshift_public_hostname=xvdrhlnde01.xvinternal.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-xvdrhlnde02.xvinternal.com openshift_hostname=xvdrhlnde02.xvinternal.com openshift_public_hostname=xvdrhlnde02.xvinternal.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
+xvdrhlosm02.cloudapps.xvinternal.com
+xvdrhlosm03.cloudapps.xvinternal.com
+xvdrhlinf01.cloudapps.xvinternal.com openshift_hostname=xvdrhlinf01.cloudapps.xvinternal.com openshift_schedulable=True  openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+xvdrhlosm04.cloudapps.xvinternal.com openshift_hostname=xvdrhlosm04.cloudapps.xvinternal.com openshift_schedulable=True openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+xvdrhlnde01.cloudapps.xvinternal.com openshift_hostname=xvdrhlnde01.cloudapps.xvinternal.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+xvdrhlnde02.cloudapps.xvinternal.com openshift_hostname=xvdrhlnde02.cloudapps.xvinternal.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"

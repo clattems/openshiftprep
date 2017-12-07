@@ -23,11 +23,17 @@
         name: '{{ package }}'
         state: latest
 
-    # - name: install custom fact
-    #   template:
-    #     src: resolv.conf.j2
-    #     dest: /etc/resolv.conf
-    #     mode: 0755
+    - name: Modify Network Manager
+      template:
+        src: NetworkManager.conf.j2
+        dest: /etc/NetworkManager/NetworkManager.conf
+        mode: 0644
+
+    - name: install custom fact
+      template:
+        src: resolv.conf.j2
+        dest: /etc/resolv.conf
+        mode: 0755
 
     # - name: create ansible user
     #   user:
